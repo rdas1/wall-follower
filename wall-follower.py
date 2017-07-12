@@ -81,7 +81,7 @@ class WallFollowingNode:
 
     def runBangController(self, u_steer):
             output_msg = AckermannDriveStamped()
-            output_msg.drive.steering_angle = u_steer #This might have to be negative. Not sure.
+            output_msg.drive.steering_angle = -u_steer #This might have to be negative. Not sure.
             output_msg.drive.speed = self.speed_cmd
             output_msg.header.stamp = rospy.Time.now()
             self.cmd_pub.publish(output_msg)
