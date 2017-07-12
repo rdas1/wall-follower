@@ -33,15 +33,14 @@ class WallFollowingNode:
         ranges = msg.ranges
 
 
-        LOW = 90 * np.pi/180
-        if ranges[int(LOW)] < self.reference_cmd:
+        NINETY = 90 * np.pi/180
+        if ranges[int(NINETY)] < self.reference_cmd:
             # TURN LEFT
-            print('TURN LEFT, DISTANCE IS: %f' %ranges[int(LOW)])
+            print('TURN LEFT, CURRENT DISTANCE FROM WALL IS: %f' %ranges[int(LOW)])
             u_steer = 0.3
-        elif ranges[int(LOW)] > self.reference_cmd:
+        elif ranges[int(NINETY)] > self.reference_cmd:
             # TURN RIGHT
-            print('TURN LEFT, DISTANCE IS: %f' %ranges[int(LOW)])
-            print('TURN RIGHT')
+            print('TURN RIGHT, DISTANCE IS: %f' %ranges[int(LOW)])
             u_steer = -0.3
         else:
             print("GO STRAIGHT")
