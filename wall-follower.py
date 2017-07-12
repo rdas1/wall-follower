@@ -40,7 +40,7 @@ class WallFollowingNode:
             u_steer = 0.3
         elif ranges[int(NINETY)] > self.reference_cmd:
             # TURN RIGHT
-            print('TURN RIGHT, DISTANCE IS: %f' %ranges[int(LOW)])
+            print('TURN RIGHT, DISTANCE IS: %f' %ranges[int(NINETY)])
             u_steer = -0.3
         else:
             print("GO STRAIGHT")
