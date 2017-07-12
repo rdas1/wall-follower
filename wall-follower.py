@@ -25,6 +25,7 @@ class WallFollowingNode:
         self.ANGLE = 40 * np.pi/180
 
 
+
     def laser_callback(self,msg):
         #Copy over to local variables
         angle_min = msg.angle_min
@@ -32,24 +33,26 @@ class WallFollowingNode:
         ranges = msg.ranges
 
 
-        ''''LOW = -self.ANGLE/2
-        HIGH = self.ANGLE/2
-
-        if (ranges[LOW] < ranges[HIGH]):
+        LOW = 90 * np.pi/180
+        if ranges[LOW] < self.reference_cmd:
             # TURN LEFT
-        else:
+            u_steer = 0.3
+        elif ranges[LOW] > self.reference_cmd:
             # TURN RIGHT
-        '''
+            u_steer = -0.3
+        else:
+            u_steer = 0
 
         #Find a way to compute the error and error rate
         error = 0
         error_rate = 0
 
-        self.run_position_controller(error,error_rate)
+        self.runBangController(u_steer)
 
 
+    '''
     def run_position_controller(self,error,error_rate):
-        '''
+
         p_control = self.Kp * error
         d_control = self.Kd * error_rate
 
@@ -70,25 +73,15 @@ class WallFollowingNode:
         print "Error:   %.2f  E_Rate:   %.2f" %(error,error_rate)
         print "P_term:  %.2f  D_term:   %.2f" %(p_control,d_control)
         print "Control: %.2f  Steering: %.2f" %(p_control+d_control,u_steer)
-        '''
-
-        # ONE POINT CONTROLLER FOR RIGHT SIDE
-        LOW = 90 * np.pi/180
-        if ranges[LOW] < self.reference_cmd:
-            # TURN LEFT
-            u_steer = 0.3
-        elif ranges[LOW] > self.reference_cmd:
-            # TURN RIGHT
-            u_steer = -0.3
-        else:
-            u_steer = 0
-
-        output_msg = AckermannDriveStamped()
-        output_msg.drive.steering_angle = u_steer #This might have to be negative. Not sure.
-        output_msg.drive.speed = self.speed_cmd
-        output_msg.header.stamp = rospy.Time.now()
 
         self.cmd_pub.publish(output_msg)
+    '''
+
+    def runBangController(u_steer):
+            output_msg = AckermannDriveStamped()
+            output_msg.drive.steering_angle = u_steer #This might have to be negative. Not sure.
+            output_msg.drive.speed = self.speed_cmd
+            output_msg.header.stamp = rospy.Time.now()
 
 
 if __name__ == "__main__":
