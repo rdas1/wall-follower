@@ -36,11 +36,15 @@ class WallFollowingNode:
         LOW = 90 * np.pi/180
         if ranges[int(LOW)] < self.reference_cmd:
             # TURN LEFT
+            print('TURN LEFT, DISTANCE IS: %f' %ranges[int(LOW)])
             u_steer = 0.3
         elif ranges[int(LOW)] > self.reference_cmd:
             # TURN RIGHT
+            print('TURN LEFT, DISTANCE IS: %f' %ranges[int(LOW)])
+            print('TURN RIGHT')
             u_steer = -0.3
         else:
+            print("GO STRAIGHT")
             u_steer = 0
 
         #Find a way to compute the error and error rate
@@ -74,7 +78,6 @@ class WallFollowingNode:
         print "P_term:  %.2f  D_term:   %.2f" %(p_control,d_control)
         print "Control: %.2f  Steering: %.2f" %(p_control+d_control,u_steer)
 
-        self.cmd_pub.publish(output_msg)
     '''
 
     def runBangController(self, u_steer):
@@ -82,6 +85,7 @@ class WallFollowingNode:
             output_msg.drive.steering_angle = u_steer #This might have to be negative. Not sure.
             output_msg.drive.speed = self.speed_cmd
             output_msg.header.stamp = rospy.Time.now()
+            self.cmd_pub.publish(output_msg)
 
 
 if __name__ == "__main__":
