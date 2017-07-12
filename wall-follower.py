@@ -34,10 +34,10 @@ class WallFollowingNode:
 
 
         LOW = 90 * np.pi/180
-        if ranges[LOW] < self.reference_cmd:
+        if ranges[int(LOW)] < self.reference_cmd:
             # TURN LEFT
             u_steer = 0.3
-        elif ranges[LOW] > self.reference_cmd:
+        elif ranges[int(LOW)] > self.reference_cmd:
             # TURN RIGHT
             u_steer = -0.3
         else:
@@ -77,7 +77,7 @@ class WallFollowingNode:
         self.cmd_pub.publish(output_msg)
     '''
 
-    def runBangController(u_steer):
+    def runBangController(self, u_steer):
             output_msg = AckermannDriveStamped()
             output_msg.drive.steering_angle = u_steer #This might have to be negative. Not sure.
             output_msg.drive.speed = self.speed_cmd
